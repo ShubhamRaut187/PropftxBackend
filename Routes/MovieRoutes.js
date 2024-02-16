@@ -23,7 +23,7 @@ MovieRouter.get('/:id',Authentication,async(req,res)=>{
     const {id} = req.params;
     try {
         const Movies = await MovieModel.findOne({_id:id});
-        res.status(200).send({'Movie':Movie});
+        res.status(200).send({'Movie':Movies});
     } catch (error) {
         console.log(error);
         res.status(500).send({'Message':'Error while getting movies'});
@@ -33,6 +33,7 @@ MovieRouter.get('/:id',Authentication,async(req,res)=>{
 // Add movie route
 MovieRouter.post('/create',Authentication,Authorization,async(req,res)=>{
     const {Name,Posters,Ratings,Category,Description} = req.body;
+    // console.log(Name,Posters,Ratings,Category,Description);
     if(!Name || !Posters || !Ratings || !Category || !Description){
         res.status(206).send({'Message':'All fields are required'})
         return
@@ -46,7 +47,7 @@ MovieRouter.post('/create',Authentication,Authorization,async(req,res)=>{
             Description
         });
         await New_Movie.save();
-        res.status(201).send({'Message':'Movie added created','Movie':New_Movie});
+        res.status(201).send({'Message':'Movie added','Movie':New_Movie});
     } catch (error) {
         console.log(error);
         res.status(500).send({'Message':'Error while creating movie'});
@@ -67,7 +68,7 @@ MovieRouter.patch('/update/:id',Authentication,Authorization,async(req,res)=>{
 })
 
 // Delete movie route
-MovieRouter.delete('/delete.:id',Authentication,Authorization,async(req,res)=>{
+MovieRouter.delete('/delete/:id',Authentication,Authorization,async(req,res)=>{
     const {id} = req.params;
     try {
         const Movie = await MovieModel.findOneAndDelete({_id:id});

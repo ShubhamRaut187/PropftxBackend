@@ -17,7 +17,7 @@ UserRouter.post('/signup',async(req,res)=>{
         const New_User = new UserModel({
             Name,
             Email,
-            Password
+            Password:hashed_password
         })
         await New_User.save();
         res.status(201).send({'Message':'Signup Successful','User':New_User});
@@ -30,6 +30,7 @@ UserRouter.post('/signup',async(req,res)=>{
 // Login route
 UserRouter.post('/login',async(req,res)=>{
     const {Email,Password} = req.body;
+    // console.log(Email,Password);
     try {
         const User = await UserModel.findOne({Email:Email});
         if(!User){

@@ -20,7 +20,7 @@ app.use('/users',UserRouter);
 app.use('/movies',MovieRouter);
 
 // Server Connection
-app.listen(8000,async()=>{
+app.listen(process.env.PORT,async()=>{
     try {
         await connection;
         console.log('Server started on port 8000 and connection to database established');
